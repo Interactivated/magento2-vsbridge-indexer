@@ -285,7 +285,7 @@ class ConfigurableData implements DataProviderInterface
                 $areChildInStock = 1;
             }
 
-            $childPrice[] = $child['price'];
+            $childPrice[] = isset($child['price']) ? $child['price'] : 0;
         }
 
         if (!$hasPrice && !empty($childPrice)) {
