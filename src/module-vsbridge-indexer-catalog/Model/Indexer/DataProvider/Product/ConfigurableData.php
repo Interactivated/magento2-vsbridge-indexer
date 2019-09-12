@@ -277,16 +277,20 @@ class ConfigurableData implements DataProviderInterface
     {
         $configurableChildren = $productDTO['configurable_children'];
         $areChildInStock = 0;
+        $summaryQty = 0;
         $childPrice = [];
         $hasPrice = $this->hasPrice($productDTO);
 
         foreach ($configurableChildren as $child) {
             if ($child['stock']['is_in_stock']) {
                 $areChildInStock = 1;
+                $summaryQty += $child['stock']['qty'];
             }
 
             $childPrice[] = isset($child['price']) ? $child['price'] : 0;
         }
+
+        $productDTO['stock']['qty'] = $summaryQty;
 
         if (!$hasPrice && !empty($childPrice)) {
             $minPrice = min($childPrice);
